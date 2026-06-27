@@ -1,0 +1,277 @@
+/* Root */
+.rp-root {
+  min-height: 100svh;
+  background: #6ab5a0;
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.rp-header {
+  padding: 1.4rem 3rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.rp-back {
+  background: transparent;
+  border: none;
+  padding: 0.5rem 0.8rem 0.5rem 0;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.88);
+  cursor: pointer;
+  transition: color 0.18s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: inherit;
+}
+.rp-back:hover { color: #fff; }
+
+.rp-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #fff;
+  letter-spacing: 0.02em;
+  flex: 1;
+}
+
+.rp-badge {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #fff;
+  white-space: nowrap;
+  margin-top: 0.3rem;
+}
+
+/* Status */
+.rp-status {
+  font-size: 0.85rem;
+  color: #fff;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 4rem;
+}
+.rp-error { color: rgba(255,100,80,0.9); }
+
+/* Body */
+.rp-body {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 3rem 3rem;
+  flex: 1;
+  gap: 0;
+}
+
+/* Top bar */
+.rp-topbar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem 0 1.8rem;
+  gap: 0;
+}
+.rp-topbar-left { display: flex; flex-direction: column; align-items: center; gap: 0; }
+
+.rp-address {
+  margin: 0 0 0.45rem;
+  font-size: 0.92rem;
+  color: #fff;
+  text-align: center;
+}
+
+.rp-agency {
+  margin: 0 0 0.9rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #fff;
+  text-align: center;
+}
+
+.rp-price { margin: 0.6rem 0 1rem; }
+.rp-price-num {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -1px;
+}
+.rp-price-label {
+  font-size: 0.88rem;
+  color: #fff;
+  margin-left: 6px;
+}
+
+/* Average rating */
+.rp-avg-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+.rp-avg-stars { font-size: 1.1rem; letter-spacing: 2px; color: #fff; }
+.rp-avg-num   { font-size: 0.95rem; font-weight: 600; color: #fff; }
+.rp-avg-count { font-size: 0.75rem; color: #fff; }
+
+/* Stats bar */
+.rp-stats {
+  display: flex;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 1.2rem 0;
+  gap: 0;
+  width: 100%;
+}
+.rp-stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+.rp-stat + .rp-stat { border-left: 1px solid rgba(255,255,255,0.1); }
+.rp-stat-val { font-size: 1.5rem; font-weight: 600; color: #fff; }
+.rp-stat-lbl { font-size: 0.68rem; color: #fff; text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* Two-column section */
+.rp-columns {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 3rem;
+  align-items: start;
+  margin-top: 2.2rem;
+}
+
+/* Main column */
+.rp-main { min-width: 0; }
+
+/* Description */
+.rp-description {
+  font-size: 0.85rem;
+  color: #fff;
+  line-height: 1.65;
+  margin: 0 0 1.4rem;
+  text-align: left;
+}
+
+/* Ratings section */
+.rp-ratings-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.rp-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.1);
+  margin: 0.8rem 0 1rem;
+  width: 100%;
+}
+.rp-ratings-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #fff;
+  margin: 0 0 0.5rem;
+  text-align: center;
+}
+.rp-star-row {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 0.75rem;
+  align-items: center;
+}
+.rp-star-btn {
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.15s, transform 0.1s;
+}
+.rp-star-btn:hover { color: #fff; transform: scale(1.15); }
+.rp-star-active    { color: #fff !important; }
+
+.rp-rating-submit {
+  display: block;
+  padding: 9px 24px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.4);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.18s;
+}
+.rp-rating-submit:hover:not(:disabled) { background: rgba(255,255,255,0.12); }
+.rp-rating-submit:disabled { opacity: 0.35; cursor: default; }
+
+.rp-rating-error   { font-size: 0.78rem; color: rgba(255,100,80,0.9); margin: 0.4rem 0; }
+.rp-rating-success { font-size: 0.78rem; color: rgba(150,255,150,0.9); margin: 0.4rem 0; }
+
+.rp-ratings-list { margin-top: 0.8rem; display: flex; flex-direction: column; gap: 4px; }
+.rp-rating-row   { display: flex; align-items: center; }
+.rp-rating-stars { font-size: 0.9rem; color: #fff; letter-spacing: 2px; }
+
+.rp-login-prompt { font-size: 0.78rem; color: #fff; }
+.rp-login-link { color: #fff; text-decoration: underline; transition: opacity 0.15s; }
+.rp-login-link:hover { opacity: 0.7; }
+
+/* Map column */
+.rp-map-col {
+  width: 100%;
+  position: sticky;
+  top: 2rem;
+}
+.rp-map-col > div { border-radius: 8px; overflow: hidden; }
+.rp-coords {
+  margin: 0.5rem 0 0;
+  font-size: 0.68rem;
+  color: #fff;
+  letter-spacing: 0.06em;
+  text-align: right;
+}
+
+/* Modal overlay */
+.rental-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0,0,0,0.3);
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  animation: tableFadeIn 0.2s ease;
+}
+
+.rental-modal {
+  background: #6ab5a0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .rp-body { padding: 1.2rem 1.5rem 2rem; }
+  .rp-columns { grid-template-columns: 1fr; }
+  .rp-map-col { position: static; }
+  .rp-header { padding: 1rem 1.5rem; }
+}

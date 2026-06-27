@@ -1,0 +1,705 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Rental Search API",
+    "description": "This API provides access to publicly available data on the Australian rental market in 2026. The API endpoints and their usage are described in detail below."
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Enter JWT Bearer token **_only_**"
+      }
+    }
+  },
+  "paths": {
+    "/rentals/states": {
+      "get": {
+        "tags": ["Rentals"],
+        "description": "Returns a list of Australian states and territories, ordered alphabetically.",
+        "responses": {
+          "200": {
+            "description": "An array of state initialisms.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "examples": [["ACT","NSW","NT","Qld","SA","Tas","Vic","WA"]]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid query parameters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "boolean",
+                      "examples": [true]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": ["Invalid query parameters: yourParamHere. Query parameters are not permitted."]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rentals/property-types": {
+      "get": {
+        "tags": ["Rentals"],
+        "description": "Returns a list of rental property types, ordered alphabetically.",
+        "responses": {
+          "200": {
+            "description": "An array of property types.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "examples": [["acreage/semi-rural","apartment","duplex/semi-detached","flat","house","other","studio","terrace","townhouse","unit","villa"]]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid query parameters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "boolean",
+                      "examples": [true]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": ["Invalid query parameters: yourParamHere. Query parameters are not permitted."]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rentals/search": {
+      "get": {
+        "tags": ["Rentals"],
+        "description": "Returns a list of rental properties, filtered and sorted as specified. If no sort order is specified, properties will be returned sorted by id in ascending order.",
+        "parameters": [
+          {
+            "name": "suburb",
+            "in": "query",
+            "description": "If this parameter is present, only rentals in this suburb will be returned.",
+            "required": false,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "description": "If this parameter is present, only rentals in this state will be returned.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["ACT","NSW","NT","Qld","SA","Tas","Vic","WA"]
+            }
+          },
+          {
+            "name": "postcode",
+            "in": "query",
+            "description": "If this parameter is present, only rentals in the specified postcode will be returned.",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 0, "maximum": 9999 }
+          },
+          {
+            "name": "minimumRent",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 0 }
+          },
+          {
+            "name": "maximumRent",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 0 }
+          },
+          {
+            "name": "minimumBathrooms",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 0 }
+          },
+          {
+            "name": "maximumBathrooms",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 0 }
+          },
+          {
+            "name": "minimumBedrooms",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 0 }
+          },
+          {
+            "name": "maximumBedrooms",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 0 }
+          },
+          {
+            "name": "minimumParking",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 0 }
+          },
+          {
+            "name": "maximumParking",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 0 }
+          },
+          {
+            "name": "propertyTypes",
+            "in": "query",
+            "required": false,
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["acreage/semi-rural","apartment","duplex/semi-detached","flat","house","other","studio","terrace","townhouse","unit","villa"]
+              }
+            }
+          },
+          {
+            "name": "minimumRating",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "number", "minimum": 0 }
+          },
+          {
+            "name": "maximumRating",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "number", "minimum": 0 }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["id","title","rent","propertyType","latitude","longitude","postcode","state","suburb","bathrooms","bedrooms","parkingSpaces","averageRating","numRatings"]
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "enum": ["asc","desc"] }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of rental objects with pagination.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "integer" },
+                          "title": { "type": "string" },
+                          "rent": { "type": "integer" },
+                          "propertyType": { "type": "string" },
+                          "latitude": { "type": "number" },
+                          "longitude": { "type": "number" },
+                          "postcode": { "type": "integer" },
+                          "state": { "type": "string" },
+                          "suburb": { "type": "string" },
+                          "bathrooms": { "type": "integer" },
+                          "bedrooms": { "type": "integer" },
+                          "parkingSpaces": { "type": "integer" },
+                          "averageRating": { "type": ["number","null"] },
+                          "numRatings": { "type": "integer" }
+                        }
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "total": { "type": "integer" },
+                        "lastPage": { "type": "integer" },
+                        "prevPage": { "type": ["integer","null"] },
+                        "nextPage": { "type": ["integer","null"] },
+                        "perPage": { "type": "integer" },
+                        "currentPage": { "type": "integer" },
+                        "from": { "type": "integer" },
+                        "to": { "type": "integer" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid query parameter."
+          }
+        }
+      }
+    },
+    "/rentals/{id}": {
+      "get": {
+        "tags": ["Rentals"],
+        "description": "Returns an object containing data for the specified rental property.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rental property details.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "title": { "type": "string" },
+                    "rent": { "type": "integer" },
+                    "description": { "type": "string" },
+                    "propertyType": { "type": "string" },
+                    "locality": { "type": "string" },
+                    "latitude": { "type": "number" },
+                    "longitude": { "type": "number" },
+                    "postcode": { "type": "integer" },
+                    "state": { "type": "string" },
+                    "streetAddress": { "type": "string" },
+                    "suburb": { "type": "string" },
+                    "bathrooms": { "type": "integer" },
+                    "bedrooms": { "type": "integer" },
+                    "parkingSpaces": { "type": "integer" },
+                    "agencyName": { "type": "string" },
+                    "amenities": { "type": ["string","null"] },
+                    "averageRating": { "type": ["number","null"] },
+                    "numRatings": { "type": "integer" },
+                    "reviews": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "rating": { "type": "integer" },
+                          "user": { "type": "string" },
+                          "comment": { "type": "string" },
+                          "dateTime": { "type": "string" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Rental not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": { "type": "boolean" },
+                    "message": { "type": "string", "examples": ["No rental exists with this ID."] }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ratings": {
+      "get": {
+        "tags": ["Ratings"],
+        "description": "Returns a list of ratings made by the current user.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "An array of rating objects with pagination.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "rentalId": { "type": "integer" },
+                          "rating": { "type": "integer" },
+                          "comment": { "type": "string" },
+                          "dateTime": { "type": "string" }
+                        }
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "total": { "type": "integer" },
+                        "lastPage": { "type": "integer" },
+                        "prevPage": { "type": ["integer","null"] },
+                        "nextPage": { "type": ["integer","null"] },
+                        "perPage": { "type": "integer" },
+                        "currentPage": { "type": "integer" },
+                        "from": { "type": "integer" },
+                        "to": { "type": "integer" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": { "type": "boolean" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ratings/rentals/{id}": {
+      "get": {
+        "tags": ["Ratings"],
+        "description": "Returns the rating made by this user for the rental with the specified id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Rating object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rating": { "type": "integer" },
+                    "comment": { "type": "string" },
+                    "dateTime": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "description": "Unauthorized." },
+          "404": {
+            "description": "No rating found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": { "type": "boolean" },
+                    "message": { "type": "string", "examples": ["No rating exists with this rental ID."] }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Ratings"],
+        "description": "Post a rating for the rental property with the specified id. If already rated, the existing rating will be overwritten.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "rating": { "type": "integer", "enum": [1,2,3,4,5] },
+                  "comment": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Rating added.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "rating": { "type": "integer" },
+                    "comment": { "type": "string" },
+                    "dateTime": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid rating." },
+          "401": { "description": "Unauthorized." },
+          "404": { "description": "Rental not found." }
+        }
+      }
+    },
+    "/user/register": {
+      "post": {
+        "tags": ["Authentication"],
+        "description": "Creates a new user account.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string", "examples": ["mike@gmail.com"] },
+                  "password": { "type": "string", "examples": ["password"] }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string", "examples": ["User created"] }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Bad request." },
+          "409": { "description": "User already exists." }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "description": "Log in to an existing user account.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string", "examples": ["mike@gmail.com"] },
+                  "password": { "type": "string", "examples": ["password"] }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Log in successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": { "type": "string" },
+                    "tokenType": { "type": "string", "examples": ["Bearer"] },
+                    "expiresIn": { "type": "number", "examples": [86400] }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Invalid request." },
+          "401": { "description": "Incorrect email or password." }
+        }
+      }
+    },
+    "/user/{email}/profile": {
+      "get": {
+        "tags": ["Profile"],
+        "description": "Returns profile information for the specified user. If authenticated as the profile owner, additional fields (dob, address) are returned.",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "User profile.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": { "type": "string", "examples": ["mike@gmail.com"] },
+                    "firstName": { "type": ["string","null"] },
+                    "lastName": { "type": ["string","null"] },
+                    "dob": { "type": ["string","null"] },
+                    "address": { "type": ["string","null"] }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": { "type": "boolean" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": { "type": "boolean" },
+                    "message": { "type": "string", "examples": ["User not found"] }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Profile"],
+        "description": "Updates the profile for the specified user. Must be authenticated as that user.",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstName": { "type": "string" },
+                  "lastName": { "type": "string" },
+                  "dob": { "type": "string", "examples": ["1990-01-01"] },
+                  "address": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": { "type": "string" },
+                    "firstName": { "type": "string" },
+                    "lastName": { "type": "string" },
+                    "dob": { "type": "string" },
+                    "address": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Missing or invalid fields." },
+          "401": { "description": "Unauthorized." },
+          "403": { "description": "Forbidden." },
+          "404": { "description": "User not found." }
+        }
+      }
+    }
+  }
+}

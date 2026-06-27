@@ -1,0 +1,138 @@
+/* Page shell */
+.search-root {
+  min-height: 100vh;
+  background: #0f1117;
+  color: #e8eaf0;
+  font-family: system-ui, sans-serif;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* Loading / error centred states */
+.search-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 1rem;
+  color: #8892a4;
+}
+.search-status.error {
+  color: #ff6b6b;
+}
+
+/* Simple CSS spinner */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #2a2d3a;
+  border-top-color: #88ee44;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Header */
+.search-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #1e2130;
+}
+
+.back-link {
+  color: #88ee44;
+  text-decoration: none;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  transition: opacity 0.15s;
+}
+.back-link:hover { opacity: 0.7; }
+
+.search-title-area h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.result-count {
+  font-size: 0.85rem;
+  color: #8892a4;
+}
+
+/* Results grid */
+.rental-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Individual card */
+.rental-card {
+  background: #161922;
+  border: 1px solid #1e2130;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.2s, transform 0.2s;
+  overflow: hidden;
+}
+.rental-card:hover {
+  border-color: #88ee44;
+  transform: translateY(-2px);
+}
+
+.rental-card-body {
+  padding: 1.1rem 1.25rem 0.75rem;
+}
+
+.rental-title {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #e8eaf0;
+}
+
+.rental-address {
+  margin: 0 0 0.4rem;
+  font-size: 0.82rem;
+  color: #8892a4;
+}
+
+.rental-meta {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #6b7585;
+}
+
+.rental-card-footer {
+  padding: 0.75rem 1.25rem;
+  background: #11141c;
+  border-top: 1px solid #1e2130;
+}
+
+.rental-price {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #88ee44;
+}
+.per-week {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: #8892a4;
+  margin-left: 2px;
+}
+
+.search-empty {
+  color: #8892a4;
+  text-align: center;
+  margin-top: 4rem;
+}
