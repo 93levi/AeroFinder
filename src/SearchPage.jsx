@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import './SearchPage.css'
 
-const API = '/api'
+const API = import.meta.env.VITE_API_BASE || '/api'
 
 export default function SearchPage() {
 

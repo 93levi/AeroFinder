@@ -4,12 +4,12 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // Local dev: forward /api/* to the HTTP-only teaching API so the browser
-  // only ever talks to the dev server (mirrors the Vercel rewrite in prod).
+  // Local dev convenience: when VITE_API_BASE is unset the app calls /api,
+  // which is proxied to a backend here (defaults to one running on :3000).
   server: {
     proxy: {
       '/api': {
-        target: 'http://4.237.58.241:3000',
+        target: process.env.VITE_API_BASE || 'http://localhost:3000',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },

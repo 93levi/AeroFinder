@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 
-const API = '/api';
+const API = import.meta.env.VITE_API_BASE || '/api';
 
 export default function LoginPage() {
   const navigate = useNavigate();

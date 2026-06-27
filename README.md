@@ -1,16 +1,71 @@
-# React + Vite
+# AeroFinder
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack rental-property search application. Browse and filter listings,
+view them on a map and in a 3D building visualisation, register/log in, and
+leave ratings and reviews.
 
-Currently, two official plugins are available:
+**Live demo:** https://aero-finder-rho.vercel.app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Stack
 
-## React Compiler
+| Layer | Tech |
+|-------|------|
+| Frontend | React 19, Vite, React Router, Three.js (3D building scene), Pigeon Maps |
+| Backend | Node, Express, Knex |
+| Database | MySQL |
+| Auth | JWT (signed tokens) + bcrypt password hashing |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Architecture
 
-## Expanding the ESLint configuration
+```
+Browser ──HTTPS──> Frontend (Vercel) ──HTTPS──> REST API (Render) ──TLS──> MySQL (Aiven)
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+The frontend is a static SPA. It talks to the API at the URL given by the
+`VITE_API_BASE` environment variable. The API is a stateless Express service
+that reads/writes a managed MySQL database.
+
+## Repository layout
+
+```
+/              React + Vite frontend (the deployed SPA)
+/CAB230-A3     Express + MySQL backend API
+/CAB230-A3/dump.sql   Full database dump (schema + data) for importing
+```
+
+## Local development
+
+### 1. Backend
+
+```bash
+cd CAB230-A3
+cp .env.example .env      # fill in DB credentials + JWT_SECRET
+npm install
+npm run dev               # http://localhost:3000  (API docs at /docs)
+```
+
+### 2. Frontend
+
+```bash
+npm install
+npm run dev               # http://localhost:5173
+```
+
+With no `VITE_API_BASE` set, the dev server proxies `/api` to a backend on
+`localhost:3000`, so the two run together out of the box.
+
+## Deployment
+
+- **Database** — create a managed MySQL (e.g. Aiven free tier) and import
+  `CAB230-A3/dump.sql`.
+- **Backend** — deploy `CAB230-A3` to Render. Set the env vars from
+  `.env.example` (with `DB_SSL=true`). Render provides HTTPS automatically.
+- **Frontend** — deploy the repo root to Vercel and set
+  `VITE_API_BASE` to the Render API URL.
+
+## API
+
+The REST API is documented with Swagger UI at `/docs` on the running backend.
+Key endpoints: `GET /rentals/search`, `GET /rentals/:id`,
+`GET /rentals/states`, `GET /rentals/property-types`,
+`POST /user/register`, `POST /user/login`, `GET/POST /ratings`.

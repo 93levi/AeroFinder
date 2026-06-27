@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Map, Marker } from 'pigeon-maps';
 import './MyRatingsPage.css';
 
-const API = '/api';
+const API = import.meta.env.VITE_API_BASE || '/api';
 
 export default function MyRatingsPage() {
   const navigate = useNavigate();

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Map, Marker } from 'pigeon-maps';
 import './RentalPage.css';
 
-const API = '/api';
+const API = import.meta.env.VITE_API_BASE || '/api';
 
 export default function RentalModal({ rentalId, onClose }) {
   const [rental,           setRental]           = useState(null);
