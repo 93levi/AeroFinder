@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Large artifacts — kept locally, not committed
+report.pdf
+CAB230-A3.zip
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
