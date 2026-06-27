@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 
-const API = 'http://4.237.58.241:3000';
+const API = '/api';
 
 export default function RegisterPage() {
   const navigate = useNavigate();

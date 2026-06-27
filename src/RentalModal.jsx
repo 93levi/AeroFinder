@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Map, Marker } from 'pigeon-maps';
 import './RentalPage.css';
 
-const API = 'http://4.237.58.241:3000';
+const API = '/api';
 
 export default function RentalModal({ rentalId, onClose }) {
   const [rental,           setRental]           = useState(null);

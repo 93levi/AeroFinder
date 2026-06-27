@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import './SearchPage.css'
 
-const API = 'http://4.237.58.241:3000'
+const API = '/api'
 
 export default function SearchPage() {
 

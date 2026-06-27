@@ -4,7 +4,7 @@ import BuildingScene from './BuildingScene';
 import RentalModal from './RentalModal';
 import './LandingPage.css';
 
-const API               = 'http://4.237.58.241:3000';
+const API               = '/api';
 const BUILDING_CAPACITY = 36;   // rental windows on the right face (ROWS=18 × COLS_R=2)
 const API_BATCH         = 4;    // API pages fetched per building block
 const MAX_API_PAGES     = 48;   // safety cap — prevents infinite loops on bad API responses
