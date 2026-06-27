@@ -35,8 +35,18 @@ export default function RegisterPage() {
         throw new Error(data.message || 'Registration failed');
       }
 
-      // Registration returns a token just like login — store it and go home
-      localStorage.setItem('token', data.token);
+      // The register endpoint only confirms creation (it returns no token),
+      // so log in right after to obtain a real JWT, then go home.
+      const loginRes = await fetch(`${API}/user/login`, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ email, password }),
+      });
+      const loginData = await loginRes.json();
+      if (!loginRes.ok) {
+        throw new Error(loginData.message || 'Account created — please sign in.');
+      }
+      localStorage.setItem('token', loginData.token);
       navigate('/');
 
     } catch (err) {

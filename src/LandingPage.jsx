@@ -103,7 +103,21 @@ export default function LandingPage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || `${authMode} failed`);
-      localStorage.setItem('token', data.token);
+
+      // Register returns no token, so after signing up we log in to get a
+      // real JWT. Login already returns one directly.
+      let token = data.token;
+      if (authMode === 'register') {
+        const loginRes = await fetch(`${API}/user/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: authEmail, password: authPassword }),
+        });
+        const loginData = await loginRes.json();
+        if (!loginRes.ok) throw new Error(loginData.message || 'Registered — please sign in.');
+        token = loginData.token;
+      }
+      localStorage.setItem('token', token);
       setIsLoggedIn(true);
       closeAuth();
     } catch (err) {
