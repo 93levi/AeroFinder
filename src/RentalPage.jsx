@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Map, Marker } from 'pigeon-maps';
 import './RentalPage.css';
 
-const API = import.meta.env.VITE_API_BASE || '/api';
+const API = import.meta.env.VITE_API_BASE || (import.meta.env.PROD ? 'https://aerofinder-6kat.onrender.com' : '/api');
 
 export default function RentalPage() {
   const { id } = useParams();

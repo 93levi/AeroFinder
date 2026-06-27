@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 
-const API = import.meta.env.VITE_API_BASE || '/api';
+const API = import.meta.env.VITE_API_BASE || (import.meta.env.PROD ? 'https://aerofinder-6kat.onrender.com' : '/api');
 
 export default function LoginPage() {
   const navigate = useNavigate();
